@@ -27,7 +27,7 @@ jobs:
       - name: Upload html test report
         uses: actions/upload-artifact@v2
         with:
-          name: lint.html
+          name: lint_report
           path: app/build/reports/lint-results-debug.html
 
   unit-test:
@@ -112,5 +112,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v2
         with:
-          name: expense-manager.apk
+          name: AndroidCICD.apk
           path: app/build/outputs/apk/debug/app-debug.apk
