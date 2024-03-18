@@ -25,6 +25,10 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v2
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+            java-version: 11.0.3
 
         # Cache gradle
       - name: Cache Gradle and wrapper
