@@ -1,7 +1,7 @@
 name: Generate APK
 on:
   push:
-    branches: [ main ]
+    branches: [ dev ]
     
 jobs:
   # Run Unit Tests etc before Generating APK here.
