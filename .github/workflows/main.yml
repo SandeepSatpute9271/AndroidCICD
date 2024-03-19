@@ -7,8 +7,20 @@ on:
   workflow_dispatch:
 
 jobs:
+cancel:
+  name: Cancel Previous Runs
+  runs-on: ubuntu-latest
+  permissions:
+    action: write
+  steps:
+    - name: Cancel Prevoius Runs
+    uses: styfle/cancel-workflow-action@0.12.1
+    with:
+      access_token: ${{github.token}}
+  
 # Lint Check
   lint:
+  needs: [cancel]
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
