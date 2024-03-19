@@ -11,16 +11,16 @@ jobs:
     name: Cancel Previous Runs
     runs-on: ubuntu-latest
     permissions:
-      action: write
+      actions: write
     steps:
       - name: Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{github.token}}
-  
+
 # Lint Check
   lint:
-  needs: [cancel]
+    needs: [cancel]
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
