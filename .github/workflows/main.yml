@@ -8,7 +8,7 @@ on:
 
 jobs:
   cancel:
-    name: Cancel Previous Runs
+    name: Cancel Previous Workflow
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -21,6 +21,7 @@ jobs:
 # Lint Check
   lint:
     needs: [cancel]
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
@@ -50,6 +51,7 @@ jobs:
 
   unit-test:
     needs: [lint]
+    name: Unit Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -88,6 +90,7 @@ jobs:
 
   instrumentation-test:
     needs: [unit-test]
+    name: Instrumentation Test
     runs-on: macos-latest
     steps:
       - name: Checkout the code
@@ -115,7 +118,7 @@ jobs:
 
   package:
     needs: [instrumentation-test]
-    name: Generate APK
+    name: Generate Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
