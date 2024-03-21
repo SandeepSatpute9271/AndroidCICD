@@ -9,10 +9,8 @@ on:
 jobs:
 
   lint:
-    name: Lint
     uses: ./.github/workflows/job_lint.yml
 
   test:
     needs: [lint]
-    name: Test
     uses: ./.github/workflows/job_test.yml
