@@ -7,10 +7,16 @@ on:
     branches: [ master ]
 
 jobs:
+  cancel:
+    name: Cancel Previous Workflow
+    uses: ./.github/workflows/job_cancel_previous.yml
+
   lint:
-    name: Lint Debug Variant
+    needs: [cancel]
+    name: Lint
     uses: ./.github/workflows/job_lint.yml
 
   test:
-    name: Test Debug Variant
+    needs: [lint]
+    name: Test
     uses: ./.github/workflows/job_test.yml
