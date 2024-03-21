@@ -7,12 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  cancel:
-    name: Cancel Previous Workflow
-    uses: ./.github/workflows/job_cancel_previous.yml
 
   lint:
-    needs: [cancel]
     name: Lint
     uses: ./.github/workflows/job_lint.yml
 
