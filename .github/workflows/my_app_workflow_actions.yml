@@ -10,6 +10,8 @@ on:
 jobs:
   cancel:
     name: Cancel Previous Workflow
+    permissions:
+      actions: write
     uses: ./.github/workflows/job_cancel_previous.yml
 
   lint:
