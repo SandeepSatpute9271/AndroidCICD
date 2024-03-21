@@ -1,142 +1,142 @@
-name: CI
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
-
-jobs:
-  cancel:
-    name: Cancel Previous Workflow
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-    steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
-        with:
-          access_token: ${{github.token}}
-
-# Lint Check
-  lint:
-    needs: [cancel]
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the code
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-      # Setup JDK
-      - name: set up JDK
-        uses: actions/setup-java@v1
-        with:
-            java-version: 17.0.7
-
-       # Set the permission to run the gradle command
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      # Run the gradle command
-      - name: Run Lint
-        run:  ./gradlew lintDebug
-
-      # Upload the report
-      - name: Upload html test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: lint_report
-          path: app/build/reports/lint-results-debug.html
-
-  unit-test:
-    needs: [lint]
-    name: Unit Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-     
-      - name: set up JDK
-        uses: actions/setup-java@v1
-        with:
-            java-version: 17.0.7
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-       # Cache gradle
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: cache-${{ runner.os }}-${{ matrix.jdk }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      
-      - name: Validate Gradle Wrapper
-        uses: gradle/wrapper-validation-action@v1
-        
-      - name: Run tests
-        run: ./gradlew test  --stacktrace
-
-      - name: Upload test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: unit_test_report
-          path: app/build/reports/tests/testDebugUnitTest/
-
-  instrumentation-test:
-    needs: [unit-test]
-    name: Instrumentation Test
-    runs-on: macos-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-        
-      - name: set up JDK
-        uses: actions/setup-java@v1
-        with:
-            java-version: 17.0.7
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Run espresso tests
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 29
-          script: ./gradlew connectedCheck
-
-      - name: Upload test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: instrumentation_test_report
-          path: app/build/reports/androidTests/connected/
-
-  package:
-    needs: [instrumentation-test]
-    name: Generate Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v2
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: set up JDK
-        uses: actions/setup-java@v1
-        with:
-            java-version: 17.0.7
-
-      - name: Build debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v2
-        with:
-          name: AndroidCICD.apk
-          path: app/build/outputs/apk/debug/app-debug.apk
+#name: CI
+#on:
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+#  workflow_dispatch:
+#
+#jobs:
+#  cancel:
+#    name: Cancel Previous Workflow
+#    runs-on: ubuntu-latest
+#    permissions:
+#      actions: write
+#    steps:
+#      - name: Cancel Previous Runs
+#        uses: styfle/cancel-workflow-action@0.12.1
+#        with:
+#          access_token: ${{github.token}}
+#
+## Lint Check
+#  lint:
+#    needs: [cancel]
+#    name: Lint
+#    runs-on: ubuntu-latest
+#    steps:
+#      # Checkout the code
+#      - name: Checkout the code
+#        uses: actions/checkout@v2
+#
+#      # Setup JDK
+#      - name: set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#            java-version: 17.0.7
+#
+#       # Set the permission to run the gradle command
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#      # Run the gradle command
+#      - name: Run Lint
+#        run:  ./gradlew lintDebug
+#
+#      # Upload the report
+#      - name: Upload html test report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: lint_report
+#          path: app/build/reports/lint-results-debug.html
+#
+#  unit-test:
+#    needs: [lint]
+#    name: Unit Test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout the code
+#        uses: actions/checkout@v2
+#
+#      - name: set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#            java-version: 17.0.7
+#
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#       # Cache gradle
+#      - name: Cache Gradle and wrapper
+#        uses: actions/cache@v2
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: cache-${{ runner.os }}-${{ matrix.jdk }}-gradle-${{ hashFiles('**/*.gradle*') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-
+#
+#      - name: Validate Gradle Wrapper
+#        uses: gradle/wrapper-validation-action@v1
+#
+#      - name: Run tests
+#        run: ./gradlew test  --stacktrace
+#
+#      - name: Upload test report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: unit_test_report
+#          path: app/build/reports/tests/testDebugUnitTest/
+#
+#  instrumentation-test:
+#    needs: [unit-test]
+#    name: Instrumentation Test
+#    runs-on: macos-latest
+#    steps:
+#      - name: Checkout the code
+#        uses: actions/checkout@v2
+#
+#      - name: set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#            java-version: 17.0.7
+#
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#      - name: Run espresso tests
+#        uses: reactivecircus/android-emulator-runner@v2
+#        with:
+#          api-level: 29
+#          script: ./gradlew connectedCheck
+#
+#      - name: Upload test report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: instrumentation_test_report
+#          path: app/build/reports/androidTests/connected/
+#
+#  package:
+#    needs: [instrumentation-test]
+#    name: Generate Build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout the code
+#        uses: actions/checkout@v2
+#
+#      - name: Grant execute permission for gradlew
+#        run: chmod +x gradlew
+#
+#      - name: set up JDK
+#        uses: actions/setup-java@v1
+#        with:
+#            java-version: 17.0.7
+#
+#      - name: Build debug APK
+#        run: ./gradlew assembleDebug --stacktrace
+#
+#      - name: Upload APK
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: AndroidCICD.apk
+#          path: app/build/outputs/apk/debug/app-debug.apk
