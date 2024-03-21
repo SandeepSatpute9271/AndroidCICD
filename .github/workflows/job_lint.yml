@@ -6,7 +6,6 @@ on:
 
 jobs:
   lint:
-    needs: [ cancel ]
     runs-on: ubuntu-latest
     steps:
       # Checkout the code
