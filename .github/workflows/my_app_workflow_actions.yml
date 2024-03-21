@@ -1,0 +1,16 @@
+name: On Pull Request or Push Called
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  lint:
+    name: Lint Debug Variant
+    uses: ./.github/workflows/job_lint.yml
+
+  test:
+    name: Test Debug Variant
+    uses: ./.github/workflows/job_test.yml

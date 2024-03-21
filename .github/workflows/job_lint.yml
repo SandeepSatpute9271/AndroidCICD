@@ -1,0 +1,35 @@
+
+name: Lint debug
+
+on:
+  workflow_call:
+
+jobs:
+  lint:
+    needs: [ cancel ]
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the code
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      # Setup JDK
+      - name: set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17.0.7
+
+      # Set the permission to run the gradle command
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # Run the gradle command
+      - name: Run Lint
+        run: ./gradlew lintDebug
+
+      # Upload the report
+      - name: Upload html test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: lint_report
+          path: app/build/reports/lint-results-debug.html
