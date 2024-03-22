@@ -35,5 +35,5 @@ jobs:
 
   distribute:
     needs: [build]
-    name: Deploy to Firebase
-    uses: ./.github/workflows/job_generate_build.yml
+    name: Building and distributing app
+    uses: ./.github/workflows/job_manual_deploy_to_firebase.yml
