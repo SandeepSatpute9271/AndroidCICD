@@ -1,7 +1,7 @@
 name: Deploy to Firebase
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       release_notes:
         type: string
