@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Building and distributing app
+    name: building and distribute
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
