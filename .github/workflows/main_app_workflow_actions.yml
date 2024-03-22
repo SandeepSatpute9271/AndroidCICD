@@ -1,0 +1,39 @@
+name: On Pull Request or Push Called
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  cancel:
+    name: Cancel Previous Workflow
+    permissions:
+      actions: write
+    uses: ./.github/workflows/job_cancel_previous.yml
+
+  lint:
+    needs: [cancel]
+    name: Lint
+    uses: ./.github/workflows/job_lint.yml
+
+  test:
+    needs: [lint]
+    name: Test
+    uses: ./.github/workflows/job_unit_test.yml
+
+  instrumentation-test:
+    needs: [test]
+    name: Instrumentation Test
+    uses: ./.github/workflows/job_instrumentation_test.yml
+
+  build:
+    needs: [instrumentation-test]
+    name: Generate Build
+    uses: ./.github/workflows/job_generate_build.yml
+
+  distribute:
+    needs: [build]
+    name: Deploy to Firebase
+    uses: ./.github/workflows/job_generate_build.yml

@@ -1,4 +1,4 @@
-name: Test debug
+name: Cancel Previous Job
 
 on:
   workflow_call:
