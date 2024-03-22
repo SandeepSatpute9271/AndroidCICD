@@ -5,7 +5,7 @@ on:
     inputs:
       release_notes:
         type: string
-        required: true
+        required: false
         default: 'Manual Debug Build'
         description: 'Release Notes'
 
