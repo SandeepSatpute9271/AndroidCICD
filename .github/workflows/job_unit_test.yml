@@ -36,12 +36,12 @@ jobs:
       - name: Run tests
         run: ./gradlew testDebugUnitTest
 
+      - name: Android Test Report
+        uses: asadmansr/android-test-report-action@v1.2.0
+        if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
+
       - name: Upload test report
         uses: actions/upload-artifact@v2
         with:
           name: unit_test_report
           path: app/build/reports/tests/testDebugUnitTest/test-results-debug.html
-
-      - name: Android Test Report
-        uses: asadmansr/android-test-report-action@v1.2.0
-        if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
