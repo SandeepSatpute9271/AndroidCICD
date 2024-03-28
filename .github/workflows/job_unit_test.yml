@@ -40,9 +40,10 @@ jobs:
         if: success() || failure()        # run this step even if previous step failed
         with:
           name: test-results
-          path: test-output/JUni/jest-junit.xml
+          path: app/build/outputs/reports/androidTests/jest-junit.xml
 
-#      - name: Android Test Report
+
+#      - name: Android Test Report path_to_your_project / module_name /build/test-results/
 #        uses: asadmansr/android-test-report-action@v1.2.0
 
 
