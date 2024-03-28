@@ -37,8 +37,11 @@ jobs:
         run: ./gradlew testDebugUnitTest
         continue-on-error: true
 
-      - name: Android Test Report
-        uses: asadmansr/android-test-report-action@v1.2.0
+      - name: Test Reporter with PR Comment
+        uses: n-ryu/test-reporter@v0.0.2
+
+#      - name: Android Test Report
+#        uses: asadmansr/android-test-report-action@v1.2.0
 
       - name: Upload test report
         uses: actions/upload-artifact@v2
