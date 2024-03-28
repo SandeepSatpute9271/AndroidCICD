@@ -39,6 +39,11 @@ jobs:
 
       - name: Test Reporter with PR Comment
         uses: n-ryu/test-reporter@v0.0.2
+        with:
+          artifact: test-results            # artifact name
+          name: JEST Tests                  # Name of the check run which will be created
+          path: '*.xml'                     # Path to test results (inside artifact .zip)
+          reporter: jest-junit              # Format of test results
 
 #      - name: Android Test Report
 #        uses: asadmansr/android-test-report-action@v1.2.0
