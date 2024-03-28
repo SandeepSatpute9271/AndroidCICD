@@ -34,7 +34,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
 
       - name: Run tests
-        run: ./gradlew test  --logger "trx;LogFileName=test-results.trx" || true
+        run: ./gradlew testDebugUnitTest
 
       - name: Upload test report
         uses: actions/upload-artifact@v2
@@ -42,11 +42,6 @@ jobs:
           name: unit_test_report
           path: app/build/reports/tests/testDebugUnitTest/test-results-debug.html
 
-      - name: Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: DotNET Tests
-          path: "**/test-results.trx"
-          reporter: dotnet-trx
-          fail-on-error: true
+      - name: Android Test Report
+        uses: asadmansr/android-test-report-action@v1.2.0
+        if: ${{ always() }} # IMPORTANT: run Android Test Report regardless
