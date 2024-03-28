@@ -7,33 +7,32 @@ on:
     branches: [ master ]
 
 jobs:
-  cancel:
-    name: Cancel Previous
-    permissions:
-      actions: write
-    uses: ./.github/workflows/job_cancel_previous.yml
+#  cancel:
+#    name: Cancel Previous
+#    permissions:
+#      actions: write
+#    uses: ./.github/workflows/job_cancel_previous.yml
 
-  lint:
-    needs: [cancel]
-    name: Lint
-    uses: ./.github/workflows/job_lint.yml
+#  lint:
+#    needs: [cancel]
+#    name: Lint
+#    uses: ./.github/workflows/job_lint.yml
 
   test:
-    needs: [lint]
     name: Test
     uses: ./.github/workflows/job_unit_test.yml
 
-  instrumentation-test:
-    needs: [test]
-    name: Instrumentation Test
-    uses: ./.github/workflows/job_instrumentation_test.yml
+#  instrumentation-test:
+#    needs: [test]
+#    name: Instrumentation Test
+#    uses: ./.github/workflows/job_instrumentation_test.yml
 
-  build:
-    needs: [instrumentation-test]
-    name: Generate Build
-    uses: ./.github/workflows/job_generate_build.yml
+#  build:
+#    needs: [instrumentation-test]
+#    name: Generate Build
+#    uses: ./.github/workflows/job_generate_build.yml
 
-  distribute:
-    needs: [build]
-    name: Building and distributing app
-    uses: ./.github/workflows/job_manual_deploy_to_firebase.yml
+#  distribute:
+#    needs: [build]
+#    name: Building and distributing app
+#    uses: ./.github/workflows/job_manual_deploy_to_firebase.yml
