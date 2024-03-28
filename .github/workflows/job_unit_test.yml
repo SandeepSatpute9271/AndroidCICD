@@ -46,11 +46,11 @@ jobs:
 #        uses: asadmansr/android-test-report-action@v1.2.0
 
 
-      - name: Upload html test report
-        uses: actions/upload-artifact@v2
-        with:
-          name: index.html
-          path: app/build/reports/tests/testDebugUnitTest/index.html
+#      - name: Upload html test report
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: index.html
+#          path: app/build/reports/tests/testDebugUnitTest/index.html
 
       - name: Test Reporter with PR Comment
         uses: n-ryu/test-reporter@v0.0.2
