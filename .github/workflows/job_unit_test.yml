@@ -36,6 +36,11 @@ jobs:
       - name: Run tests
         run: ./gradlew testDebugUnitTest
         continue-on-error: true
+      - uses: actions/upload-artifact@v3  # upload test results
+        if: success() || failure()        # run this step even if previous step failed
+        with:
+          name: test-results
+          path: jest-junit.xml
 
 #      - name: Android Test Report
 #        uses: asadmansr/android-test-report-action@v1.2.0
@@ -50,7 +55,7 @@ jobs:
       - name: Test Reporter with PR Comment
         uses: n-ryu/test-reporter@v0.0.2
         with:
-          artifact: test-results            # artifact name
+          artifact: test-results           # artifact name
           name: JEST Tests                  # Name of the check run which will be created
-          path: '*.html'                     # Path to test results (inside artifact .zip)
+          path: '*.xml'                     # Path to test results (inside artifact .zip)
           reporter: jest-junit              # Format of test results
